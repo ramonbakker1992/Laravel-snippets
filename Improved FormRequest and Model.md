@@ -1,5 +1,7 @@
 # Laravel Snippets
 
+# Laravel Snippets
+
 ## FormRequest
 
 **Improvements**
@@ -91,7 +93,7 @@ class {Model}Request extends FormRequest
 }
 ```
 
-## FormRequest
+## Model
 
 **Improvements**
 - Defining if validation and authorization are required for the corresponding model. Defaults to true. Setting it to false is usually only done for debugging purposes. You can overwrite the `$validation` and `$authorization` properties on your model.
