@@ -9,7 +9,7 @@
 - If authorization and validation are required for the request, is defined on the model.
 
 **Code**
-```
+```php
 <?php
 
 namespace App\App\Foundation;
@@ -69,7 +69,7 @@ class FormRequest extends BaseFormRequest
 }
 ```
 **Usage:**
-```
+```php
 <?php
 
 namespace App\Http\{namespace};
@@ -102,7 +102,7 @@ class {Model}Request extends FormRequest
 - The default connection will be set automaticly. When using relations on multiple different connections, laravel does'nt know which connection to use by default and needs to be explicitly defined on the model.
 
 **Code**
-```
+```php
 <?php
 
 namespace App\App\Foundation;
@@ -269,7 +269,7 @@ class Model extends BaseModel
 }
 ```
 **Usage:**
-```
+```php
 <?php
 
 namespace App\Domain\{namespace};
