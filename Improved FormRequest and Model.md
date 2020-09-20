@@ -116,8 +116,10 @@ class Model extends BaseModel
      * 
      * @return void
      */
-    public function __construct()
+    public function __construct($attributes = [])
     {
+        parent::__construct($attributes);
+
         $this->casts = array_merge(
             $this->getCastableDateColumns(), $this->casts()
         );
