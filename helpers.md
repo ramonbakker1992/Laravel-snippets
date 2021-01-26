@@ -1,3 +1,4 @@
+```php
     /**
      * Replaces html array notation in array dot notation
      *
@@ -53,3 +54,4 @@
         foreach ($matches[1] as $param) { $replace['{'.$param.'}'] = object_get($object, $param); }
         return strtr($template, $replace);
     }
+```
