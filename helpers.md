@@ -34,9 +34,9 @@ function dot2html($dot) {
  * @param  string
  * @return mixed
  */
-// function object_get(object $object, string $path) {
-//     return array_reduce(explode('.', $path), function ($o, $p) { return $o->$p; }, $object);
-// }
+function object_get(object $object, string $path) {
+    return array_reduce(explode('.', $path), function ($o, $p) { return $o->$p; }, $object);
+}
 
 /**
  * Replaces placeholders from a string with object values
