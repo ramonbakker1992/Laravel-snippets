@@ -5,11 +5,11 @@
  * Example:
  * "book[author][name]" becomes "book.author.name"
  *
- * @param  string
+ * @param  string  $path
  * @return string
  */
-function html2dot($html) {
-    return str_replace(['[',']'], ['.',''], $html);
+function html2dot($path) {
+    return str_replace(['[',']'], ['.',''], $path);
 }
 
 /**
@@ -18,25 +18,40 @@ function html2dot($html) {
  * Example:
  * "book.author.name" becomes "book[author][name]"
  *
- * @param  string
+ * @param  string  $path
  * @return string
  */
-function dot2html($dot) {
-    $arr = explode('.', $dot); $first = $arr[0]; unset($arr[0]);
+function dot2html($path) {
+    $arr = explode('.', $path); $first = $arr[0]; unset($arr[0]);
     return count($arr) ? $first.'['.implode('][', $arr) .']' : $first;
 }
 
 /**
  * Access an object property by dot notation
  *
- * @param  object
- * @param  string
+ * @param  object  $object
+ * @param  string|null  $path
+ * @param  mixed  $default
  * @return mixed
  */
-function xobject_get(object $object, string $path, $default = null) {
+function xobject_get(object $object, $path, $default = null) {
     return array_reduce(explode('.', $path), function ($o, $p) use ($default) { 
         return is_numeric($p) ? $o[$p] ?? $default : $o->$p ?? $default; 
     }, $object);
+}
+
+/**
+ * Access an array's property by dot notation
+ *
+ * @param  array  $array
+ * @param  string|null  $path
+ * @param  mixed  $default
+ * @return mixed
+ */
+function xarray_get(array $array, $path, $default = null) {
+    return array_reduce(explode('.', $path), function ($a, $p) use ($default) { 
+        return $a[$p] ?? $default; 
+    }, $array);
 }
 
 /**
@@ -45,14 +60,16 @@ function xobject_get(object $object, string $path, $default = null) {
  * Example:
  * "The book {title} was written by {author.name}" becomes "The book Harry Potter was written by J.K. Rowling"
  *
- * @param  object
- * @param  string
+ * @param  array|object  $data
+ * @param  string  $template
  * @return string
  */
-function render_template(object $object, string $template) {
+function render_template($data, string $template) {
     preg_match_all("/\{([^\}]*)\}/", $template, $matches); 
     $replace = [];
-    foreach ($matches[1] as $param) { $replace['{'.$param.'}'] = xobject_get($object, $param); }
+    foreach ($matches[1] as $param) { 
+        $replace['{'.$param.'}'] = is_object($data) ? xobject_get($data, $param) : xarray_get($data, $param); 
+    }
     return strtr($template, $replace);
 }
 ```
