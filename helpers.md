@@ -55,7 +55,7 @@ function xarray_get(array $array, $path, $default = null) {
 }
 
 /**
- * Replaces placeholders from a string with object values
+ * Replaces placeholders from a string with object or array values using "dot" notation
  *
  * Example:
  * "The book {title} was written by {author.name}" becomes "The book Harry Potter was written by J.K. Rowling"
