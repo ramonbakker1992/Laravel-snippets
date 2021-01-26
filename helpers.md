@@ -27,7 +27,7 @@ function dot2html($path) {
 }
 
 /**
- * Access an object property by dot notation
+ * Access an object property using "dot" notation
  *
  * @param  object  $object
  * @param  string|null  $path
@@ -41,7 +41,7 @@ function xobject_get(object $object, $path, $default = null) {
 }
 
 /**
- * Access an array's property by dot notation
+ * Access an array's property using "dot" notation
  *
  * @param  array  $array
  * @param  string|null  $path
