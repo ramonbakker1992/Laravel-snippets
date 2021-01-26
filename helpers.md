@@ -28,14 +28,15 @@ function dot2html($dot) {
 
 /**
  * Access an object property by dot notation
- * Note; Function replaced by laravel's build-in helper object_get()
  *
  * @param  object
  * @param  string
  * @return mixed
  */
-function object_get(object $object, string $path) {
-    return array_reduce(explode('.', $path), function ($o, $p) { return $o->$p; }, $object);
+function xobject_get(object $object, string $path, $default = null) {
+    return array_reduce(explode('.', $path), function ($o, $p) use ($default) { 
+        return is_numeric($p) ? $o[$p] ?? $default : $o->$p ?? $default; 
+    }, $object);
 }
 
 /**
@@ -48,10 +49,10 @@ function object_get(object $object, string $path) {
  * @param  string
  * @return string
  */
-function renderTemplate(object $object, string $template) {
+function render_template(object $object, string $template) {
     preg_match_all("/\{([^\}]*)\}/", $template, $matches); 
     $replace = [];
-    foreach ($matches[1] as $param) { $replace['{'.$param.'}'] = object_get($object, $param); }
+    foreach ($matches[1] as $param) { $replace['{'.$param.'}'] = xobject_get($object, $param); }
     return strtr($template, $replace);
 }
 ```
