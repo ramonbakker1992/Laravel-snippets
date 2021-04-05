@@ -505,9 +505,84 @@ return [
     'registration_default_role' => '2',
 ];
 ```
-### x
+### Formatting helpers
 ```php
-//
+<?php
+
+/**
+ * Format date
+ *
+ * @param  string|object  $date
+ * @return string
+ */
+function format_date($date) {
+    $format = config('formatting.date');
+
+    if ($date instanceof \Carbon\Carbon) {
+        return $date->format($format);
+    }
+
+    $createFromFormat = (strlen($date) > 10)
+        ? 'Y-m-d H:i:s'
+        : 'Y-m-d';
+
+    return $date 
+        ? \Carbon\Carbon::createFromFormat($createFromFormat, $date)->format($format)
+        : null;
+}
+
+/**
+ * Format datetime
+ *
+ * @param  string|object  $date
+ * @return string
+ */
+function format_datetime($date) {
+    $format = config('formatting.date') . ' ' . config('formatting.time');
+
+    if ($date instanceof \Carbon\Carbon) {
+        return $date->format($format);
+    }
+
+    return $date 
+        ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format($format)
+        : null;
+}
+
+/**
+ * Format currency
+ *
+ * @param  integer|float  $value
+ * @return string
+ */
+function format_currency($value) {
+    if (!is_integer($value) && !is_float($value)) {
+        return null;
+    }
+
+    if (config('custom.currency.input_as_integer') && !is_float($value)) {
+        $value = $value / 100;
+    }
+
+    return 
+        config('formatting.currency.prefix')
+        . number_format($value, 2, config('formatting.currency.decimal_separator'), config('formatting.currency.thousands_separator'))
+        . config('formatting.currency.suffix');
+}
+
+/**
+ * Format currency
+ *
+ * @param  integer|float  $value
+ * @return string
+ */
+function format_number($value, $decimals = 2) {
+    if (!is_integer($value) && !is_float($value)) {
+        return null;
+    }
+
+    return number_format($value, $decimals, config('formatting.currency.decimal_separator'), config('formatting.currency.thousands_separator'));
+}
 ```
 ### x
 ```php
