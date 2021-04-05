@@ -571,7 +571,7 @@ function format_currency($value) {
 }
 
 /**
- * Format currency
+ * Format number
  *
  * @param  integer|float  $value
  * @return string
